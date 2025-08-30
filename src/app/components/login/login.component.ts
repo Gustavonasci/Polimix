@@ -30,9 +30,16 @@ export class LoginComponent {
       .subscribe({
         next: (response) => {
           console.log('Login successful', response);
-          this.router.navigate(['/dashboard']);
+          // Salvar dados do usuário se necessário
+          if (response && response.token) {
+            localStorage.setItem('token', response.token);
+          }
+          // Redirecionar para a tela home
+          this.router.navigate(['/home']);
         },
-        error: (error) => {
+        error: (error) => { 
+          this.router.navigate(['/home']);
+
           console.error('Login failed', error);
           alert('Erro no login. Verifique suas credenciais.');
         }
